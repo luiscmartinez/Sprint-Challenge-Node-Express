@@ -1,5 +1,6 @@
 const server = require('express')()
 const projectDb = require('../data/helpers/projectModel')
+const actionDb = require('../data/helpers/actionModel')
 
 // GET ALL PROJECTS
 server.get('/', (req, res, next) => {
@@ -62,6 +63,20 @@ server.delete('/:id', (req, res, next) => {
       ? next(new Error('CANT_FIND_PRO'))
       : projectDb.get().then((projects) => res.status(200).json(projects))
   })
+})
+
+// CREATE A NEW ACTION FOR PROJECT
+server.post('/:id/newaction', (req, res, next) => {
+  const { notes, description } = req.body
+  const projectId = req.params.id
+  const newAction = { project_id: projectId, ...req.body }
+  if (!notes || description.length > 128) {
+    next(new Error('INVALID'))
+  }
+  actionDb
+    .insert(newAction)
+    .then((action) => res.status(201).json(action))
+    .catch(next)
 })
 
 module.exports = server
