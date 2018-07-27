@@ -28,4 +28,17 @@ server.get('/:id/actions', (req, res, next) => {
     .catch(next)
 })
 
+// ADD A NEW PROJECT
+server.post('/', (req, res, next) => {
+  const newProject = req.body
+  const name = newProject.name
+  if (!name || name.length > 120) {
+    next(new Error('INVALID_NAME'))
+  }
+  projectDb
+    .insert(newProject)
+    .then((newPost) => res.status(201).json(newPost))
+    .catch(next)
+})
+
 module.exports = server
