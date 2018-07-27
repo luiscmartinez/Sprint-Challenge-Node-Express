@@ -55,4 +55,13 @@ server.put('/:id', (req, res, next) => {
     .catch(next)
 })
 
+// DELETE A PROJECT
+server.delete('/:id', (req, res, next) => {
+  projectDb.remove(req.params.id).then((project) => {
+    project == 0
+      ? next(new Error('CANT_FIND_PRO'))
+      : projectDb.get().then((projects) => res.status(200).json(projects))
+  })
+})
+
 module.exports = server
