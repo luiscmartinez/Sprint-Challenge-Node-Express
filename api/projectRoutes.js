@@ -79,4 +79,18 @@ server.post('/:id/newaction', (req, res, next) => {
     .catch(next)
 })
 
+// UPDATE AN ACTION FOR PROJECT
+server.put('/:id/actions/:actionid', (req, res, next) => {
+  const { notes, description } = req.body
+  const id = req.params.actionid
+  const updatedAction = { ...req.body }
+  if (!notes || description.length > 128) {
+    next(new Error('INVALID'))
+  }
+  actionDb
+    .update(id, updatedAction)
+    .then((update) => res.status(200).json(update))
+    .catch(next)
+})
+
 module.exports = server
