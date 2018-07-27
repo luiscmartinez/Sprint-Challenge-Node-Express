@@ -11,7 +11,11 @@ module.exports = (server) => {
           .status(404)
           .send({ status: 'There is no existing project by that ID' })
         break
-
+      case 'INVALID_NAME':
+        res.status(400).send({
+          error: 'A name for each project is required, up to 128 characters max'
+        })
+        break
       default:
         res.status(500).send({ error: err.message })
         break
