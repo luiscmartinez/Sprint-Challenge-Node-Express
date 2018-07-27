@@ -41,4 +41,18 @@ server.post('/', (req, res, next) => {
     .catch(next)
 })
 
+// UPDATE A PROJECT
+server.put('/:id', (req, res, next) => {
+  const updatedProject = req.body
+  const projectName = updatedProject.name
+  const id = req.params.id
+  if (!projectName || projectName.length > 120) {
+    next(new Error('INVALID_NAME'))
+  }
+  projectDb
+    .update(id, updatedProject)
+    .then((update) => res.status(200).json(update))
+    .catch(next)
+})
+
 module.exports = server
