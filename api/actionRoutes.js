@@ -18,4 +18,13 @@ server.get('/:id', (req, res, next) => {
     .catch(next)
 })
 
+// DELETE AN ACTION BY ID
+server.delete('/:id', (req, res, next) => {
+  actionDb.remove(req.params.id).then((action) => {
+    action == 0
+      ? next(new Error('CANT_FIND_ITEM'))
+      : actionDb.get().then((actions) => res.status(200).json(actions))
+  })
+})
+
 module.exports = server
