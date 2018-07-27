@@ -1,9 +1,7 @@
-const express = require('express')
-const logger = require('morgan')
-const helmet = require('helmet')
+const projectRoutes = require('./projectRoutes')
+const actionRoutes = require('./actionRoutes')
 
 module.exports = (server) => {
-  server.use(express.json())
-  server.use(logger('dev'))
-  server.use(helmet())
+  server.use('/api/projects', projectRoutes)
+  server.use('/api/actions', actionRoutes)
 }
