@@ -18,4 +18,14 @@ server.get('/:id', (req, res, next) => {
     .catch(next)
 })
 
+// GET ALL ACTIONS BY A SPECIFIC PROJECT
+server.get('/:id/actions', (req, res, next) => {
+  projectDb
+    .getProjectActions(req.params.id)
+    .then((actions) => {
+      actions.length > 0 ? res.status(200).json(actions) : res.sendStatus(204)
+    })
+    .catch(next)
+})
+
 module.exports = server
